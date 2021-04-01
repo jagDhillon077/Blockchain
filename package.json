@@ -1,0 +1,24 @@
+{
+  "name": "code-projects",
+  "version": "1.0.0",
+  "description": "",
+  "main": "blockChain.js",
+  "dependencies": {
+    "backbone": "^1.4.0",
+    "underscore": "^1.12.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jagDhillon077/Code-Projects.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jagDhillon077/Code-Projects/issues"
+  },
+  "homepage": "https://github.com/jagDhillon077/Code-Projects#readme"
+}
