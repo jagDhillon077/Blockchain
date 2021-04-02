@@ -4,8 +4,7 @@
   "description": "",
   "main": "blockChain.js",
   "dependencies": {
-    "backbone": "^1.4.0",
-    "underscore": "^1.12.1"
+    "crypto-js": "^4.0.0"
   },
   "devDependencies": {},
   "scripts": {
