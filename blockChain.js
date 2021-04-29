@@ -16,16 +16,25 @@ class Block{
         this.data = data;
         this.previousHash = previousHash;
         this.hash = this.calculateHash();
+        this.nonce = 0;
     }
 
 /** Takes the sum of Block's index, timestamp, data, previousHash and returns 256 bit hash value
  * @returns 256bit hash value (in hex)  
  */
     calculateHash() {
-        return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data)).toString();
+        return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString();
+    }
+
+    mineBlock(difficulty){
+        while(this.hash.substring(0,difficulty) != Array(difficulty + 1).join("0")) {
+            this.nonce++;
+            this.hash = this.calculateHash();
+        }
+
+        console.log("Block mined: " + this.hash);
     }
 }
-
 /** 
  * Create a blockchain
  * genesis block is first entry
@@ -33,6 +42,7 @@ class Block{
 class Blockchain {
     constructor(){
         this.chain = [this.createGenesisBlock()];
+        this.difficulty = 10;
     }
 
 /**
@@ -55,7 +65,7 @@ class Blockchain {
  */
     addBlock(newBlock) {
         newBlock.previousHash = this.getLatestBlock().hash;
-        newBlock.hash = newBlock.calculateHash();
+        newBlock.mineBlock(this.difficulty);
         this.chain.push(newBlock);
     }
 /**
@@ -83,11 +93,9 @@ class Blockchain {
 }
 
 let jag = new Blockchain(); // create blockchain
+
+console.log('Mining Block 1...');
 jag.addBlock(new Block(1, "05/04/2021", { amount: 4})); //add block
+console.log("Jags genisis block: " + jag[0]);
+console.log('Mining Block 2...');
 jag.addBlock(new Block(2, "07/04/2021", { amount: 10})); // add block
-console.log('Is blockChain valid?' + jag.isChainValid()); // check if the blockchain is valid (should be true)
-jag.chain[1].data = {amount : 100}; // tamper with one of the blocks
-console.log('Is blockChain valid?' + jag.isChainValid()); // checks the validity of the blockchain again, should return false
-jag.chain[1].hash = jag.chain[1].calculateHash(); // change the hash of the the block to a new hash
-console.log('Is blockChain valid?' + jag.isChainValid()); // checks the validity of the blockchain again, should return false because the proceeding blocks previous hash does not match
-console.log(JSON.stringify(jag, null, 4)); // prints blockchain
